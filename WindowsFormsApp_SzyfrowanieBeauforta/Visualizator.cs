@@ -67,7 +67,6 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
             return labelToReturn;
         }
 
-        // To wywolac przy guziku
         private void setVisibilityForAllLabels(bool isVisible)
         {
             foreach (Label l in tab)
@@ -153,5 +152,25 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
             markColumn(textLetterNumber, keyLetter);
             markRow(resultLetterNumber, keyLetter);
         }
+
+        public void unmarkAll()
+        {
+            foreach (Label l in tab)
+            {
+                l.BackColor = System.Drawing.Color.White;
+            }
+
+            foreach (Label l in tabForLettersHorizontal)
+            {
+                l.BackColor = System.Drawing.Color.CadetBlue;
+            }
+
+            foreach (Label l in tabForLettersVertical)
+            {
+                l.BackColor = System.Drawing.Color.OrangeRed;
+            }
+        }
+
+
     }
 }
