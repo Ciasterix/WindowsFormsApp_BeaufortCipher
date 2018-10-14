@@ -62,12 +62,12 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
             labelToReturn.Text = dictionaryNumbersLettersForVisualization[letterNumber].ToString();
             labelToReturn.Size = new Size(17, 17);
             labelToReturn.Font = new Font("Microsoft Sans Serif", 10);
-            labelToReturn.Visible = true;
+            labelToReturn.Visible = false;
             labelToReturn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             return labelToReturn;
         }
 
-        private void setVisibilityForAllLabels(bool isVisible)
+        public void setVisibilityForAllLabels(bool isVisible)
         {
             foreach (Label l in tab)
             {
@@ -171,6 +171,20 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
             }
         }
 
+        public char cipherOrDecipherOneLetter(char textLetter, char keyLetter)
+        {
+            // Algorytm szyfrujacy i deszyfrujacy sa dokladnie takie same, C = E(M) = (K - M) mod 26
+            // Pierwszy krok: (K - M)
+            int resultLetterNumber = dictionaryLettersNumbersForVisualization[keyLetter] - dictionaryLettersNumbersForVisualization[textLetter];
+            // drugi krok: mod 26
+            resultLetterNumber %= numberOfCharsForVisualization;
+
+            // Korekcja modulo (jeśli wynik jest ujemny)
+            if (resultLetterNumber < 0)
+                resultLetterNumber += numberOfCharsForVisualization;
+
+            return dictionaryNumbersLettersForVisualization[resultLetterNumber];
+        }
 
     }
 }

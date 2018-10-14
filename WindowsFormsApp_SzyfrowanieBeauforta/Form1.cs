@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace WindowsFormsApp_SzyfrowanieBeauforta
 {
@@ -45,7 +46,8 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
                                         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                                         ',', '.', ':', ';', '"', '?', '!', '*', '@', '#',
                                         '$', '%', '^', '&', '/', '|', '(', ')', '{', '}',
-                                        '[', ']', '<', '>', ' ', '\\', '\r', '\t', '\n' };
+                                        '[', ']', '<', '>','-', '_', ' ', '+', '*', '=',
+                                        '\\', '\'', '\r', '\t', '\n' };
             
             numberOfChars = allowedCharacters.Length;
 
@@ -61,6 +63,8 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
             textBox1.BackColor = System.Drawing.Color.Aquamarine;
             textBox2.BackColor = System.Drawing.Color.White;
             textBox3.BackColor = System.Drawing.Color.White;
+
+            numberOfCharsDone = 0;
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -68,16 +72,17 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
             textBox1.BackColor = System.Drawing.Color.White;
             textBox2.BackColor = System.Drawing.Color.Aquamarine;
             textBox3.BackColor = System.Drawing.Color.White;
+
+            numberOfCharsDone = 0;
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             cipherOrDecipherText(ref textBox3, textBox1.Text, textBox2.Text);
         }
 
@@ -116,36 +121,101 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
         private void Form1_Load(object sender, EventArgs e)
         {
             cipherAlgorithmVisualizator.loadLabelIntoForm(this);
+            cipherAlgorithmVisualizator.setVisibilityForAllLabels(false);
         }
 
+        // Przycisk Wykonywanie krokowe
         private void button3_Click(object sender, EventArgs e)
         {
             if (stepByStepActivated == false)
             {
                 stepByStepActivated = true;
                 button3.BackColor = System.Drawing.Color.DodgerBlue;
+                cipherAlgorithmVisualizator.unmarkAll();
+                cipherAlgorithmVisualizator.setVisibilityForAllLabels(true);
             }
             else
             {
                 stepByStepActivated = false;
                 button3.BackColor = System.Drawing.Color.LightGray;
+                cipherAlgorithmVisualizator.setVisibilityForAllLabels(false);
             }
 
         }
 
+        // Przycisk Kolejny krok
         private void button4_Click(object sender, EventArgs e)
         {
             if(stepByStepActivated == true)
             {
-                if (numberOfCharsDone < textBox1.Text.Length)
+                cipherAlgorithmVisualizator.unmarkAll();
+                int textLength = textBox1.Text.Length;
+                int keyLength = textBox2.Text.Length;
+
+                if (numberOfCharsDone < textLength)
                 {
                     char textLetterToDo = textBox1.Text[numberOfCharsDone];
-                    char keyLetterToDo = textBox2.Text[numberOfCharsDone];
+                    char keyLetterToDo = textBox2.Text[numberOfCharsDone % keyLength];
 
-                    cipherOrDecipherOneLetter(textLetterToDo, keyLetterToDo);
+                    cipherOrDecipherStepByStep(textLetterToDo, keyLetterToDo);
+                    numberOfCharsDone++;
                 }
-
             }
+        }
+
+        private void cipherOrDecipherStepByStep(char textLetterToDo, char keyLetterToDo)
+        {
+            char resultLetter = cipherAlgorithmVisualizator.cipherOrDecipherOneLetter(textLetterToDo, keyLetterToDo);
+            cipherAlgorithmVisualizator.markLetters(textLetterToDo, keyLetterToDo, resultLetter);
+            textBox3.Text += resultLetter;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox3.Text = "";
+            textBox4.Text = "";
+            textBox5.Text = "";
+
+            stepByStepActivated = false;
+            button3.BackColor = System.Drawing.Color.LightGray;
+
+            numberOfCharsDone = 0;
+            cipherAlgorithmVisualizator.unmarkAll();
+        }
+
+        private void readTextFromFile(ref TextBox resultTextBox, ref TextBox fileNameTextBox)
+        {
+            string fileName = null;
+            string text = "";
+
+            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
+            {
+                openFileDialog1.InitialDirectory = "c:\\";
+                openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog1.FilterIndex = 2;
+                openFileDialog1.RestoreDirectory = true;
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    fileName = openFileDialog1.FileName;
+                }
+            }
+
+            if (fileName != null)
+            {
+                //Do something with the file, for example read text from it
+                text = File.ReadAllText(fileName);
+            }
+
+            resultTextBox.Text = text;
+            fileNameTextBox.Text = fileName;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            readTextFromFile(ref textBox1, ref textBox2);
         }
     }
 }

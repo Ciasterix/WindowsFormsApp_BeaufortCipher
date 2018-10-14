@@ -173,6 +173,7 @@
             this.button6.TabIndex = 449;
             this.button6.Text = "Otwórz plik";
             this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // textBox4
             // 
@@ -216,6 +217,7 @@
             this.button7.TabIndex = 454;
             this.button7.Text = "Wyczyść wszystko";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button8
             // 
