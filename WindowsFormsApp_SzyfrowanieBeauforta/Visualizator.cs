@@ -62,7 +62,7 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
             labelToReturn.Text = dictionaryNumbersLettersForVisualization[letterNumber].ToString();
             labelToReturn.Size = new Size(17, 17);
             labelToReturn.Font = new Font("Microsoft Sans Serif", 10);
-            labelToReturn.Visible = false;
+            labelToReturn.Visible = false ;
             labelToReturn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             return labelToReturn;
         }
