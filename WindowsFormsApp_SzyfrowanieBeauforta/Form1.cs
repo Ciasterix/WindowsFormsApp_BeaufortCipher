@@ -107,9 +107,7 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
         // Przycisk Szyfruj
         private void button1_Click(object sender, EventArgs e)
         {
-            if (checkIfNotEmpty(textBox1.Text))
-                return;
-            else if (checkIfNotEmpty(textBox2.Text))
+            if (!checkIfNotEmpty(textBox1.Text) || !checkIfNotEmpty(textBox2.Text))
                 return;
             else
                 cipherOrDecipherText(ref textBox3, textBox1.Text, textBox2.Text);
@@ -118,9 +116,7 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
         // Przycisk Deszyfruj
         private void button2_Click(object sender, EventArgs e)
         {
-            if (checkIfNotEmpty(textBox3.Text))
-                return;
-            else if (checkIfNotEmpty(textBox2.Text))
+            if (!checkIfNotEmpty(textBox3.Text) || !checkIfNotEmpty(textBox2.Text))
                 return;
             else
                 cipherOrDecipherText(ref textBox1, textBox3.Text, textBox2.Text);
@@ -187,15 +183,21 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
         {
             if(stepByStepActivated == true)
             {
+                if (!checkIfNotEmpty(textBox1.Text) || !checkIfNotEmpty(textBox2.Text))
+                    return;
+
                 cipherAlgorithmVisualizator.unmarkAll();
                 int textLength = textBox1.Text.Length;
                 int keyLength = textBox2.Text.Length;
 
                 if (numberOfCharsDone < textLength)
                 {
-                    char textLetterToDo = textBox1.Text[numberOfCharsDone];
-                    char keyLetterToDo = textBox2.Text[numberOfCharsDone % keyLength];
+                    char textLetterToDo = Char.ToUpper(textBox1.Text[numberOfCharsDone]);
+                    char keyLetterToDo = Char.ToUpper(textBox2.Text[numberOfCharsDone % keyLength]);
 
+
+                    if (!cipherAlgorithmVisualizator.checkText(Char.ToString(textLetterToDo)) || !cipherAlgorithmVisualizator.checkText(Char.ToString(keyLetterToDo)))
+                        return;
                     cipherOrDecipherStepByStep(textLetterToDo, keyLetterToDo);
                     numberOfCharsDone++;
                 }
@@ -207,9 +209,18 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
             char textLetterToDoUpper = Char.ToUpper(textLetterToDo);
             char keyLetterToDoupper = Char.ToUpper(keyLetterToDo);
 
+            if (!cipherAlgorithmVisualizator.checkText(Char.ToString(textLetterToDoUpper)) || !cipherAlgorithmVisualizator.checkText(Char.ToString(keyLetterToDoupper)))
+                return;
+
             char resultLetter = cipherAlgorithmVisualizator.cipherOrDecipherOneLetter(textLetterToDoUpper, keyLetterToDoupper);
-            cipherAlgorithmVisualizator.markLetters(textLetterToDoUpper, keyLetterToDoupper, resultLetter);
-            textBox3.Text += resultLetter;
+            if (textLetterToDo == ' ' || textLetterToDo == '.' || textLetterToDo == ',' || textLetterToDo == '\r' || textLetterToDo == '\t' || textLetterToDo == '\n')
+                textBox3.Text += resultLetter;
+            else
+            {
+                cipherAlgorithmVisualizator.markLetters(textLetterToDoUpper, keyLetterToDoupper, resultLetter);
+                textBox3.Text += resultLetter;
+            }
+            
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -257,7 +268,7 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
 
         private void button6_Click(object sender, EventArgs e)
         {
-            readTextFromFile(ref textBox1, ref textBox2);
+            readTextFromFile(ref textBox1, ref textBox5);
         }
 
         private void showInfoPopUp()
@@ -272,10 +283,23 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
                 "4. Aby wczytać tekst z pliku należy kliknąć przycisk Otwórz plik. Zostanie on wczytany do pierwszego pola\n" +
                 "5. Aby odszyfrować wiadomość należy ją wpisać do trzeciego pola tekstowego. Po uzupełnieniu klucza można nacisnąć przysk Deszyfruj\n" +
                 "6. Algorytm szyfrujący i deszyfrujący są takie same, dlatego można także odszyfrować plik wpisując go w pierwsze pole tekstowe i klikając Szyfruj\n" +
-                "7. Aby wyczyścić wszystkie pola należy nacisnąć przycisk Wyczyść wszystko\n\n" +
+                "7. Aby wyczyścić wszystkie pola należy nacisnąć przycisk Wyczyść wszystko\n" +
+                "8. Aby zapisac wynik szyfrowania lub deszyfrowania do pliku tekstowego nalezy kliknąć przycisk Zapisz do pliku a wybrać lokalizację i nazwę dla nowego pliku\n\n" +
                 "Dzialanie algorytmu:\n" +
-                "Załóżmy, że kolejnym literom alfabetu łacińskiego nadajemy kolejne numery od 0 do 25, tak że A ma numer 0, B ma numer 1 itd." +
-                "Dla danej litery tekstu jawnego "
+                "Załóżmy, że kolejnym literom alfabetu łacińskiego nadajemy kolejne numery od 1 do 26, tak że A ma numer 1, B ma numer 2 itd." +
+                "Dla danego znaku tekstu M i danego znaku klucza K znak zaszyfrowany C możemy wyznaczyć ze wzoru:\n" +
+                "C = (K - M) mod 26\n" +
+                "gdzie litery M, K i C to liczby reprezentujące odpowiadające im liczby.\n\n" +
+                "Wizualizacja:\n" +
+                "Aby przeprowadzić wizualizację, należy wpisać wybrany tekst (jawny lub zaszyfrowany) do pierwszego pola tekstowego oraz klucz do drugiego pola tekstowego.\n" +
+                "Następnie należy kliknąć przycisk Wykonywanie krokowe. Powinien on oznaczyć się na niebiesko, co oznacza, że uruchomiono tryb wykonywania krokowego. Spowoduje to takze ukazanie się macierzy liter.\n" +
+                "Po wcisnieciu przycisku następny krok w górnym rzędzie oznaczona zostanie odpowiednia litera oryginalnego tekstu. Następnie w tej kolumnie, w której znajduje się dana litera tekstu znajdowana jest litera klucza. Litera, która zostanie podswietlona po lewej stronie jest wynikiem szyfrowania.\n" +
+                "Jezeli klucz jest krótszy niż szyfrowany tekst to klucz zostanie powielony tak, aby jego dłygość była równa długości szyfrowanego tesktu\n" +
+                "Przykład: jeżeli klucz ma 5 liter, a tekst 14, to 6 litera zostanie zakodowana według pierwszej litery klucza.\n\n" +
+                "UWAGA! Znaki dozwolone przy wizualizacji i znaki dozwolone poza trybem wizualizacji różnią się!\n" +
+                "Znaki dostępne poza trybem wizualizacji, to wielkie litery alfabetu łacińskiego. Można także wpisywać małe litery, jednak zostaną one ostatecznie zamienione na wielkie.\n" +
+                "Zbiór znaków dostepnych poza trybem wizualizacji obejmuje małe i wielkie znaki alfabetu łacińskiego oraz polskiego, cyfry, oraz znaki:\n" +
+                "',' '.' ':' ';' '\"' ' ? ' '!' ' * @ # $', '%', '^', '&', '/', '|', '(', ')', '{', '}', '[', ']', '<', '>', '-', '_', ' ', '+', '=', '\\', '\'' oraz tabulację, enter i nową linię"
                 ;
 
             MessageBox.Show(infoText, "Informacje o programie", MessageBoxButtons.OK);
@@ -284,6 +308,24 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
         private void button8_Click(object sender, EventArgs e)
         {
             showInfoPopUp();
+        }
+
+        private void SaveToFile(string text)
+        {
+            SaveFileDialog save = new SaveFileDialog();
+            save.DefaultExt = ".txt";
+            if (save.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                using (StreamWriter write = new StreamWriter(File.Create(save.FileName)))
+                    write.Write(text);
+                textBox4.Text = save.FileName;
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if(checkIfNotEmpty(textBox3.Text))
+                SaveToFile(textBox3.Text);
         }
     }
 }

@@ -173,9 +173,25 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
 
         public char cipherOrDecipherOneLetter(char textLetter, char keyLetter)
         {
+            if (textLetter == '\n')
+                return textLetter;
+            else if (textLetter == ' ')
+                return textLetter;
+            else if (textLetter == '\t')
+                return textLetter;
+            else if (textLetter == '\r')
+                return textLetter;
+            else if (textLetter == '.')
+                return textLetter;
+            else if (textLetter == ',')
+                return textLetter;
+
+            char textLetterUpper = Char.ToUpper(textLetter);
+            char keyLetterUpper = Char.ToUpper(keyLetter);
+
             // Algorytm szyfrujacy i deszyfrujacy sa dokladnie takie same, C = E(M) = (K - M) mod 26
             // Pierwszy krok: (K - M)
-            int resultLetterNumber = dictionaryLettersNumbersForVisualization[keyLetter] - dictionaryLettersNumbersForVisualization[textLetter];
+            int resultLetterNumber = dictionaryLettersNumbersForVisualization[keyLetterUpper] - dictionaryLettersNumbersForVisualization[textLetterUpper];
             // drugi krok: mod 26
             resultLetterNumber %= numberOfCharsForVisualization;
 
