@@ -186,5 +186,21 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
             return dictionaryNumbersLettersForVisualization[resultLetterNumber];
         }
 
+        public bool checkText(string text)
+        {
+            text = text.ToUpper();
+
+            foreach (char l in text)
+            {
+                if (l == ' ' || l == '.' || l == ',' || l == '\r' || l == '\t' || l == '\n')
+                    continue;
+                if (!dictionaryLettersNumbersForVisualization.ContainsKey(l))
+                {
+                    MessageBox.Show("Wykryto znak, który jest niedozwolony w trybie wizualizacji: " + l, "Niedozwolony znak w wisualizacji", MessageBoxButtons.OK);
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

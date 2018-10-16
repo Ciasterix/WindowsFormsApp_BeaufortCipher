@@ -58,6 +58,29 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
             }
         }
 
+        private bool checkText(string text)
+        {
+            foreach (char l in text)
+            {
+                if (!dictionaryLettersNumbers.ContainsKey(l))
+                {
+                    MessageBox.Show("Wykryto niedozwolony znak: " + l, "Niedozwolony znak", MessageBoxButtons.OK);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private bool checkIfNotEmpty(string text)
+        {
+            if (text.Length == 0)
+            {
+                MessageBox.Show("Jedno z wymaganych pól tekstowych jest puste!", "Puste pole", MessageBoxButtons.OK);
+                return false;
+            }
+            return true;
+        }
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             textBox1.BackColor = System.Drawing.Color.Aquamarine;
@@ -84,13 +107,23 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
         // Przycisk Szyfruj
         private void button1_Click(object sender, EventArgs e)
         {
-            cipherOrDecipherText(ref textBox3, textBox1.Text, textBox2.Text);
+            if (checkIfNotEmpty(textBox1.Text))
+                return;
+            else if (checkIfNotEmpty(textBox2.Text))
+                return;
+            else
+                cipherOrDecipherText(ref textBox3, textBox1.Text, textBox2.Text);
         }
 
         // Przycisk Deszyfruj
         private void button2_Click(object sender, EventArgs e)
         {
-            cipherOrDecipherText(ref textBox1, textBox3.Text, textBox2.Text);
+            if (checkIfNotEmpty(textBox3.Text))
+                return;
+            else if (checkIfNotEmpty(textBox2.Text))
+                return;
+            else
+                cipherOrDecipherText(ref textBox1, textBox3.Text, textBox2.Text);
         }
         
         private char cipherOrDecipherOneLetter(char textLetter, char keyLetter)
@@ -110,6 +143,10 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
 
         private void cipherOrDecipherText(ref TextBox resultTextBox, string textMessage, string keyText)
         {
+            //Jezeli ciag zawiera niedozwolone znaki, to wyjdz z funkcji
+            if (checkText(textMessage) == false)
+                return;
+
             string resultText = "";
 
             for(int i = 0; i < textMessage.Length; i++)
@@ -167,8 +204,11 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
 
         private void cipherOrDecipherStepByStep(char textLetterToDo, char keyLetterToDo)
         {
-            char resultLetter = cipherAlgorithmVisualizator.cipherOrDecipherOneLetter(textLetterToDo, keyLetterToDo);
-            cipherAlgorithmVisualizator.markLetters(textLetterToDo, keyLetterToDo, resultLetter);
+            char textLetterToDoUpper = Char.ToUpper(textLetterToDo);
+            char keyLetterToDoupper = Char.ToUpper(keyLetterToDo);
+
+            char resultLetter = cipherAlgorithmVisualizator.cipherOrDecipherOneLetter(textLetterToDoUpper, keyLetterToDoupper);
+            cipherAlgorithmVisualizator.markLetters(textLetterToDoUpper, keyLetterToDoupper, resultLetter);
             textBox3.Text += resultLetter;
         }
 
@@ -218,6 +258,32 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
         private void button6_Click(object sender, EventArgs e)
         {
             readTextFromFile(ref textBox1, ref textBox2);
+        }
+
+        private void showInfoPopUp()
+        {
+            String infoText = "Program Szyfrujący Szyfrem Beauforta\n" +
+                "Autor: Cezary Waligóra\n\n" +
+                "Program pozwala zaszyfrować i odszyfrować wybrany tekst za pomocą podanego klucza.\n" +
+                "Instrukcja:\n" +
+                "1. Tekst, który ma zostac zaszyfrowany należy wpisać do pierwszego pola tekstowego\n" +
+                "2. Klucz należy wpisać do drugiego pola tekstowego\n" +
+                "3. W trzecim polu powinien pojawić się zaszyfrowany tekst\n" +
+                "4. Aby wczytać tekst z pliku należy kliknąć przycisk Otwórz plik. Zostanie on wczytany do pierwszego pola\n" +
+                "5. Aby odszyfrować wiadomość należy ją wpisać do trzeciego pola tekstowego. Po uzupełnieniu klucza można nacisnąć przysk Deszyfruj\n" +
+                "6. Algorytm szyfrujący i deszyfrujący są takie same, dlatego można także odszyfrować plik wpisując go w pierwsze pole tekstowe i klikając Szyfruj\n" +
+                "7. Aby wyczyścić wszystkie pola należy nacisnąć przycisk Wyczyść wszystko\n\n" +
+                "Dzialanie algorytmu:\n" +
+                "Załóżmy, że kolejnym literom alfabetu łacińskiego nadajemy kolejne numery od 0 do 25, tak że A ma numer 0, B ma numer 1 itd." +
+                "Dla danej litery tekstu jawnego "
+                ;
+
+            MessageBox.Show(infoText, "Informacje o programie", MessageBoxButtons.OK);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            showInfoPopUp();
         }
     }
 }

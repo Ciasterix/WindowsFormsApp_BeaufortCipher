@@ -160,16 +160,16 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(12, 411);
+            this.button5.Location = new System.Drawing.Point(12, 455);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(151, 38);
             this.button5.TabIndex = 448;
-            this.button5.Text = "Losuj klucz";
+            this.button5.Text = "Zapisz do pliku";
             this.button5.UseVisualStyleBackColor = true;
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(12, 455);
+            this.button6.Location = new System.Drawing.Point(12, 411);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(151, 38);
             this.button6.TabIndex = 449;
@@ -179,7 +179,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(170, 428);
+            this.textBox4.Location = new System.Drawing.Point(170, 472);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(151, 21);
@@ -188,24 +188,24 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(170, 412);
+            this.label4.Location = new System.Drawing.Point(170, 456);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(85, 13);
+            this.label4.Size = new System.Drawing.Size(116, 13);
             this.label4.TabIndex = 451;
-            this.label4.Text = "Długość klucza:";
+            this.label4.Text = "Nazwa pliku do zapisu:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(170, 456);
+            this.label5.Location = new System.Drawing.Point(170, 412);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(65, 13);
+            this.label5.Size = new System.Drawing.Size(126, 13);
             this.label5.TabIndex = 453;
-            this.label5.Text = "Nazwa pliku";
+            this.label5.Text = "Nazwa pliku do otwarcia:";
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(170, 472);
+            this.textBox5.Location = new System.Drawing.Point(170, 428);
             this.textBox5.Multiline = true;
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(151, 21);
@@ -229,6 +229,7 @@
             this.button8.TabIndex = 455;
             this.button8.Text = "Info";
             this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // Form1
             // 
