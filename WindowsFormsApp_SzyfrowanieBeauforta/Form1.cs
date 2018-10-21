@@ -286,10 +286,10 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
                 "7. Aby wyczyścić wszystkie pola należy nacisnąć przycisk Wyczyść wszystko\n" +
                 "8. Aby zapisac wynik szyfrowania lub deszyfrowania do pliku tekstowego nalezy kliknąć przycisk Zapisz do pliku a wybrać lokalizację i nazwę dla nowego pliku\n\n" +
                 "Dzialanie algorytmu:\n" +
-                "Załóżmy, że kolejnym literom alfabetu łacińskiego nadajemy kolejne numery od 1 do 26, tak że A ma numer 1, B ma numer 2 itd." +
+                "Załóżmy, że kolejnym literom alfabetu łacińskiego nadajemy kolejne numery od 1 do 26, tak że A ma numer 1, B ma numer 2 itd. " +
                 "Dla danego znaku tekstu M i danego znaku klucza K znak zaszyfrowany C możemy wyznaczyć ze wzoru:\n" +
-                "C = (K - M) mod 26\n" +
-                "gdzie litery M, K i C to liczby reprezentujące odpowiadające im liczby.\n\n" +
+                "C = (K - M) mod n\n" +
+                "gdzie M, K i C oznaczają liczby reprezentujące odpowiadające im litery, a n to liczba dostępnych znaków, która w trybie wizualizacji jest równa 26.\n\n" +
                 "Wizualizacja:\n" +
                 "Aby przeprowadzić wizualizację, należy wpisać wybrany tekst (jawny lub zaszyfrowany) do pierwszego pola tekstowego oraz klucz do drugiego pola tekstowego.\n" +
                 "Następnie należy kliknąć przycisk Wykonywanie krokowe. Powinien on oznaczyć się na niebiesko, co oznacza, że uruchomiono tryb wykonywania krokowego. Spowoduje to takze ukazanie się macierzy liter.\n" +
