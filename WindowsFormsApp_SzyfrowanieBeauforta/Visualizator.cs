@@ -212,7 +212,7 @@ namespace WindowsFormsApp_SzyfrowanieBeauforta
                     continue;
                 if (!dictionaryLettersNumbersForVisualization.ContainsKey(l))
                 {
-                    MessageBox.Show("Wykryto znak, który jest niedozwolony w trybie wizualizacji: " + l, "Niedozwolony znak w wisualizacji", MessageBoxButtons.OK);
+                    MessageBox.Show("Wykryto znak, który jest niedozwolony w trybie wizualizacji: " + l, "Niedozwolony znak w wizualizacji", MessageBoxButtons.OK);
                     return false;
                 }
             }

@@ -212,7 +212,8 @@
             this.textBox5.Location = new System.Drawing.Point(170, 428);
             this.textBox5.Multiline = true;
             this.textBox5.Name = "textBox5";
-            this.textBox5.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox5.ReadOnly = true;
+            this.textBox5.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.textBox5.Size = new System.Drawing.Size(151, 21);
             this.textBox5.TabIndex = 452;
             // 
@@ -230,7 +231,8 @@
             this.textBox4.Location = new System.Drawing.Point(170, 472);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
-            this.textBox4.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox4.ReadOnly = true;
+            this.textBox4.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.textBox4.Size = new System.Drawing.Size(151, 21);
             this.textBox4.TabIndex = 450;
             // 
